@@ -42,9 +42,9 @@ function setup() {
   maskW = 100;
   maskH = 225;
   maskSpeed = 5; 
-  leftMaskX = 150 - maskW;
+  leftMaskX = 120 - maskW;
   leftMaskY = height / 2 - maskH / 2;
-  rightMaskX = width - 150;
+  rightMaskX = width - 120;
   rightMaskY = height  / 2 - maskH / 2;
 }
 
@@ -54,7 +54,7 @@ function draw() {
   //white background for score 
   fill(255);
   noStroke();
-  rect(225, 30, width - 450, 120, 20);
+  rect(180, 30, width - 360, 120, 20);
 
   // masks 
   image(leftMask, leftMaskX, leftMaskY, maskW, maskH);
@@ -63,15 +63,15 @@ function draw() {
   //left temp rect
   fill(204, 0, 0);
   noStroke();
-  rect(300, 73, leftTemp, 30, 20);
+  rect(250, 73, leftTemp, 30, 20);
 
   //right temp rect
-  rect(width - 400, 73, rightTemp, 30, 20);
+  rect(width - 350, 73, rightTemp, 30, 20);
 
   //thermometers
-  image(rightTherma, width - 450, 50, 200, 80);
-  image(leftTherma, 250, 50, 200, 80)
- 
+  image(leftTherma, 200, 50, 200, 80)
+  image(rightTherma, width - 400, 50, 200, 80);
+  
   //covid ball
   image(covidBall, ballX, ballY, ballW, ballH);
 
@@ -82,9 +82,11 @@ function draw() {
   moveLeftMask()
   contactMask()
   scores()
+  thermoUp()
+  gameOver()
   // rightLost()
   // leftLost()
-  gameOver()
+
 } 
 
 function moveBall(){
@@ -94,11 +96,11 @@ function moveBall(){
 
 function bounceBall(){
   if (ballX > width - ballW || ballX < 0) {
-    ballSpeedX *= -1;
+    ballSpeedX = -ballSpeedX;
   } 
  //add scoring over here
   if (ballY > height - ballH || ballY < 0) {
-    ballSpeedY *= -1;
+    ballSpeedY = -ballSpeedY;
   }
  }
 
@@ -123,11 +125,11 @@ function moveRightMask(){
  }
  
 function contactMask(){
-  if((ballX + 10) < leftMaskX + maskW && (ballY + 10) < leftMaskY + maskH && (ballY - 10) > leftMaskY) {
+  if(ballX < leftMaskX + maskW && ballY < leftMaskY + maskH && ballY + ballH > leftMaskY) {
     ballSpeedX = -ballSpeedX;
   }
 
-  if((ballX - 10) + ballW > rightMaskX && (ballY + 10) < rightMaskY + maskH && (ballY - 10) > rightMaskY) {
+  if(ballX + ballW > rightMaskX && ballY < rightMaskY + maskH && ballY + ballH > rightMaskY) {
     ballSpeedY = -ballSpeedY;
   }
 }
@@ -143,6 +145,32 @@ function scores(){
 
   if(ballX + ballW > width && rightMaskScore < 5){
     rightMaskScore = rightMaskScore += 1;
+  }
+}
+
+function thermoUp(){
+  if(leftMaskScore == 1){
+    leftTemp = 50;
+  }else if(leftMaskScore == 2){
+    leftTemp = 70;
+  }else if(leftMaskScore == 3){
+    leftTemp = 90;
+  }else if(leftMaskScore == 4){
+    leftTemp = 110;
+  }else if(leftMaskScore == 5){
+    leftTemp = 130;
+  }
+
+  if(rightMaskScore == 1){
+    rightTemp = 50;
+  }else if(rightMaskScore == 2){
+    rightTemp = 70;
+  }else if(rightMaskScore == 3){
+    rightTemp = 90;
+  }else if(rightMaskScore == 4){
+    rightTemp = 110;
+  }else if(rightMaskScore == 5){
+    rightTemp = 130;
   }
 }
 
