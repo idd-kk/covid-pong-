@@ -14,6 +14,9 @@ let leftMaskScore = 0, rightMaskScore = 0;
 let leftTemp = 30;
 let rightTemp = 30;
 
+let viral 
+let play
+
 
 // preload all images 
 function preload() {
@@ -23,6 +26,8 @@ function preload() {
   bgImg = loadImage('/pong/img/visuals-Pd2hIHv95FY-unsplash.jpg');
   leftTherma = loadImage('/pong/img/therma-left.png');
   rightTherma = loadImage('/pong/img/therma-right.png');
+  viral = loadImage('/pong/img/viral-load.png');
+  play = loadImage('/pong/img/play.png');
 }
 
 function setup() {
@@ -33,8 +38,8 @@ function setup() {
   ballH =100;
   ballX = width / 2;
   ballY = height / 2;
-  ballSpeedX = 2;
-  ballSpeedY = 2;
+  ballSpeedX = 3;
+  ballSpeedY = 3;
   ballShootX = random(1, 4);
   ballShootY = random(1, 4);
 
@@ -84,9 +89,9 @@ function draw() {
   scores()
   thermoUp()
   gameOver()
-  // rightLost()
-  // leftLost()
-
+  rightLost()
+  leftLost()
+  playBtn()
 } 
 
 function moveBall(){
@@ -132,18 +137,32 @@ function contactMask(){
     ballSpeedX = -ballSpeedX;
   }
 
+  if(ballX < leftMaskX + maskW && 
+    ballY < leftMaskY + maskH && 
+    ballY > leftMaskY) {
+
+    ballSpeedY = -ballSpeedY;
+  }
+
   if(ballX + ballW > rightMaskX && 
     ballY < rightMaskY + maskH && 
     ballY > rightMaskY) {
 
     ballSpeedX = -ballSpeedX;
   }
+
+  if(ballX + ballW > rightMaskX && 
+    ballY < rightMaskY + maskH && 
+    ballY > rightMaskY) {
+
+    ballSpeedY = -ballSpeedY;
+  }
 }
 
 function scores(){
-  fill(255);
-  text(leftMaskScore, 150, 50);
-  text(rightMaskScore, width - 150, 50);
+  // fill(255);
+  // text(leftMaskScore, 150, 50);
+  // text(rightMaskScore, width - 150, 50);
 
   if(ballX < 0 && leftMaskScore < 5){
     leftMaskScore = leftMaskScore += 1;
@@ -188,17 +207,42 @@ function gameOver(){
   }
 }
 
-// function leftLost(){
-//   if (leftMaskScore <= 0){
 
-//   }
-// }
 
-// function rightLost(){
-//   if (rightMaskScore <= 0){
+function leftLost(){
+  if (leftMaskScore == 5){
+    image(viral, 100, height - 300, 200, 130);
+  }
+}
 
-//   }
-// }
+function rightLost(){
+  if (rightMaskScore == 5){
+    image(viral, width - 300, height - 300, 200, 130);
+  }
+}
+
+function playBtn(){
+  if (leftMaskScore == 5 || rightMaskScore == 5){
+    button = createButton(image(play, width / 2, height / 2, 100, 100));
+    button.position(width / 2, height / 2);
+    button.mousePressed(reset());
+  }
+}
+
+function reset(){
+  leftMaskScore = 0, rightMaskScore = 0;
+  leftTemp = 30;
+  rightTemp = 30;
+  ballX = width / 2;
+  ballY = height / 2;
+  ballSpeedX = 3;
+  ballSpeedY = 3;
+  maskSpeed = 3;
+  leftMaskX = 120 - maskW;
+  leftMaskY = height / 2 - maskH / 2;
+  rightMaskX = width - 120;
+  rightMaskY = height  / 2 - maskH / 2;
+}
 
 function keyPressed() {
   if (key == 'w' || key == 'W') {
