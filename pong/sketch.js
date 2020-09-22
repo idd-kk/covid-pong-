@@ -207,8 +207,6 @@ function gameOver(){
   }
 }
 
-
-
 function leftLost(){
   if (leftMaskScore == 5){
     image(viral, 100, height - 300, 200, 130);
@@ -242,6 +240,7 @@ function reset(){
   leftMaskY = height / 2 - maskH / 2;
   rightMaskX = width - 120;
   rightMaskY = height  / 2 - maskH / 2;
+  removeElements(image(play, width / 2, height / 2, 100, 100));
 }
 
 function keyPressed() {
