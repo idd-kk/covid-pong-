@@ -40,7 +40,7 @@ function setup() {
 
   // Mask Paddles 
   maskW = 100;
-  maskH = 225;
+  maskH = 200;
   maskSpeed = 5; 
   leftMaskX = 120 - maskW;
   leftMaskY = height / 2 - maskH / 2;
@@ -125,12 +125,18 @@ function moveRightMask(){
  }
  
 function contactMask(){
-  if(ballX < leftMaskX + maskW && ballY < leftMaskY + maskH && ballY + ballH > leftMaskY) {
+  if(ballX < leftMaskX + maskW && 
+    ballY < leftMaskY + maskH && 
+    ballY > leftMaskY) {
+
     ballSpeedX = -ballSpeedX;
   }
 
-  if(ballX + ballW > rightMaskX && ballY < rightMaskY + maskH && ballY + ballH > rightMaskY) {
-    ballSpeedY = -ballSpeedY;
+  if(ballX + ballW > rightMaskX && 
+    ballY < rightMaskY + maskH && 
+    ballY > rightMaskY) {
+
+    ballSpeedX = -ballSpeedX;
   }
 }
 
