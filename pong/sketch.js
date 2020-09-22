@@ -2,18 +2,14 @@ let covidBall;
 let ballX, ballY, ballH, ballW;
 let ballSpeedX, ballSpeedY;
 let ballShootX, ballShootY;
-
 let leftMask, rightMask;
 let maskW, maskH; 
 let leftMaskX, leftMaskY, rightMaskX, rightMaskY;
 let maskSpeed; 
 let leftMaskUp, leftMaskDown, rightMaskUp, rightMaskDown;
-
 let leftMaskScore = 0, rightMaskScore = 0;
-
 let leftTemp = 30;
 let rightTemp = 30;
-
 let viral 
 let play
 
@@ -38,8 +34,8 @@ function setup() {
   ballH =100;
   ballX = width / 2;
   ballY = height / 2;
-  ballSpeedX = 3;
-  ballSpeedY = 3;
+  ballSpeedX = 5;
+  ballSpeedY = 5;
   ballShootX = random(1, 4);
   ballShootY = random(1, 4);
 
@@ -99,11 +95,11 @@ function moveBall(){
     ballY += ballSpeedY * ballShootY;
 }
 
+// make ball bounce off of screen edge 
 function bounceBall(){
   if (ballX > width - ballW || ballX < 0) {
     ballSpeedX = -ballSpeedX;
   } 
- //add scoring over here
   if (ballY > height - ballH || ballY < 0) {
     ballSpeedY = -ballSpeedY;
   }
@@ -129,41 +125,35 @@ function moveRightMask(){
   }
  }
  
+ //make ball bounce off of masks 
 function contactMask(){
   if(ballX < leftMaskX + maskW && 
     ballY < leftMaskY + maskH && 
     ballY > leftMaskY) {
-
     ballSpeedX = -ballSpeedX;
   }
 
   if(ballX < leftMaskX + maskW && 
     ballY < leftMaskY + maskH && 
     ballY > leftMaskY) {
-
     ballSpeedY = -ballSpeedY;
   }
 
   if(ballX + ballW > rightMaskX && 
     ballY < rightMaskY + maskH && 
     ballY > rightMaskY) {
-
     ballSpeedX = -ballSpeedX;
   }
 
   if(ballX + ballW > rightMaskX && 
     ballY < rightMaskY + maskH && 
     ballY > rightMaskY) {
-
     ballSpeedY = -ballSpeedY;
   }
 }
 
+//keep scores 
 function scores(){
-  // fill(255);
-  // text(leftMaskScore, 150, 50);
-  // text(rightMaskScore, width - 150, 50);
-
   if(ballX < 0 && leftMaskScore < 5){
     leftMaskScore = leftMaskScore += 1;
   }
@@ -173,6 +163,7 @@ function scores(){
   }
 }
 
+//change the length of red line in thermometers
 function thermoUp(){
   if(leftMaskScore == 1){
     leftTemp = 50;
@@ -209,21 +200,22 @@ function gameOver(){
 
 function leftLost(){
   if (leftMaskScore == 5){
-    image(viral, 100, height - 300, 200, 130);
+    image(viral, 100, height / 2, 200, 135);
   }
 }
 
 function rightLost(){
   if (rightMaskScore == 5){
-    image(viral, width - 300, height - 300, 200, 130);
+    image(viral, width - 300, height / 2, 200, 135);
   }
 }
 
+//create play button and make it reset the game when clicked 
 function playBtn(){
   if (leftMaskScore == 5 || rightMaskScore == 5){
     button = createButton(image(play, width / 2, height / 2, 100, 100));
     button.position(width / 2, height / 2);
-    button.mousePressed(reset());
+    button.mousePressed(reset);
   }
 }
 
@@ -233,8 +225,8 @@ function reset(){
   rightTemp = 30;
   ballX = width / 2;
   ballY = height / 2;
-  ballSpeedX = 3;
-  ballSpeedY = 3;
+  ballSpeedX = 5;
+  ballSpeedY = 5;
   maskSpeed = 3;
   leftMaskX = 120 - maskW;
   leftMaskY = height / 2 - maskH / 2;
